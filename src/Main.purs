@@ -3,33 +3,37 @@ module Main where
 import Prelude
 import Effect (Effect)
 import Effect.Console (log)
-import Data.Array((!!), zipWith, foldl, head, tail)
-import Data.Maybe (Maybe(..), fromMaybe)
---- import Data.Array (length, head)
+import Data.Array((!!), zipWith, foldl, head, tail, replicate)
+import Data.Maybe (fromMaybe)
+import Effect.Random (randomInt)
+import Data.Unfoldable (replicateA)
 
 main :: Effect Unit
 main = do
-    log $ foldl (<>) "\n" $ map (\n -> n <> "\n") $ row (getRec Base) [(getRec Base), (getRec Rocks1), (getRec Base), (getRec Tree1), (getRec Base)]
+    seeds <- replicateA 15 (randomInt 1 3)
+    log $ foldl (<>) "\n" $ map (\n -> n <> "\n") $ buildRow (getRec Base) (getRandomRec seeds)
 
-row :: Array String -> Array(Array String) -> Array String
-row acc [] = acc
-row acc l = row (zipWith (<>) acc (fromMaybe [] $ head l)) (fromMaybe [] $ tail l)
+
+buildRow :: Array String -> Array(Array String) -> Array String
+buildRow acc [] = acc
+buildRow acc l = buildRow (zipWith (<>) acc (fromMaybe [] $ head l)) (fromMaybe [] $ tail l)
     
-
--- fact 0 acc = acc
--- fact n acc = fact (n - 1) (acc * n)
-
-combineRecs :: Array String -> Array String -> Array String
-combineRecs a1 a2 =
-    zipWith (<>) a1 a2
-
--- log $ fromMaybe "fail" (Nothing)
--- main = logShow (diagonal 3.0 4.0)
--- log "Hello World"
 data Rect
     = Base
     | Tree1
     | Rocks1
+
+getRandomRec :: Array(Int) -> Array(Array String)
+getRandomRec seeds =
+    map (\seed -> getRecFromInt seed) seeds
+
+getRecFromInt :: Int -> Array String
+getRecFromInt i =
+    case i of
+         1 -> (getRec Base)
+         2 -> (getRec Tree1)
+         3 -> (getRec Rocks1)
+         _ -> (getRec Base)
 
 getRec :: Rect -> Array String
 getRec rec = 
@@ -45,7 +49,7 @@ getRec rec =
              [
              "_._.",
              "._._",
-             "_/\\_.",
+             "_/\\.",
              "/..\\"
              ]
          Rocks1 ->
