@@ -1,42 +1,24 @@
 module Main where
 
 import Prelude
-import Effect (Effect)
-import Effect.Console (log)
-import Data.Array((!!), zipWith, foldl, head, tail, replicate)
+import Data.Array((:), (!!), take, drop, zipWith, foldl, foldr, concat, head, tail, replicate)
 import Data.Maybe (fromMaybe)
-import Effect.Random (randomInt)
-import Data.Unfoldable (replicateA)
+import Random.PseudoRandom (randomRs, mkSeed)
 
-main :: Effect Unit
-main = do
-    seeds <- replicateA 15 (randomInt 1 3)
-    log $ foldl (<>) "\n" $ map (\n -> n <> "\n") $ buildRow (getRec Base) (getRandomRec seeds)
-
-
-buildRow :: Array String -> Array(Array String) -> Array String
-buildRow acc [] = acc
-buildRow acc l = buildRow (zipWith (<>) acc (fromMaybe [] $ head l)) (fromMaybe [] $ tail l)
-    
-data Rect
+type Col = Array Row
+type Row = Array Rect
+type Rect = Array String
+data RectName
     = Base
     | Tree1
     | Rocks1
 
-getRandomRec :: Array(Int) -> Array(Array String)
-getRandomRec seeds =
-    map (\seed -> getRecFromInt seed) seeds
+intToRect :: Int -> RectName
+intToRect i =
+    fromMaybe Base $ [Base, Tree1, Rocks1] !! i
 
-getRecFromInt :: Int -> Array String
-getRecFromInt i =
-    case i of
-         1 -> (getRec Base)
-         2 -> (getRec Tree1)
-         3 -> (getRec Rocks1)
-         _ -> (getRec Base)
-
-getRec :: Rect -> Array String
-getRec rec = 
+rectToStrings :: RectName -> Rect
+rectToStrings rec =
     case rec of
          Base ->
              [
@@ -60,5 +42,27 @@ getRec rec =
              "()._"
              ]
 
+getRandomNumbers :: Int -> Int -> Array Int
+getRandomNumbers seed total =
+    randomRs 0 2 total (mkSeed seed)
 
+
+group :: forall a. Array(Array a) -> Int -> Array a -> Array(Array a)
+group acc i [] = acc
+group acc i rest = group ((take i rest) : acc) i (drop i rest)
+
+flattenRow :: Rect -> Row -> Rect
+flattenRow acc [] = acc
+flattenRow acc rest = flattenRow (zipWith (<>) acc (fromMaybe [] (head rest))) (fromMaybe [] (tail rest))
+
+generate :: Int -> Int -> Int -> String
+generate seed x y =
+    foldl (<>) ""
+    $ map (\x -> x <> "\n")
+    $ concat
+    $ map (flattenRow (rectToStrings Base))
+    $ map (map rectToStrings)
+    $ map (map intToRect)
+    $ group [] x
+    $ getRandomNumbers seed (x * y)
 
