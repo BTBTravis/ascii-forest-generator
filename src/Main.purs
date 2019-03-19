@@ -1,7 +1,7 @@
 module Main where
 
 import Prelude
-import Data.Array((:), (!!), take, drop, zipWith, foldl, foldr, concat, head, tail, replicate)
+import Data.Array((:), (!!), take, drop, zipWith, foldl, concat, head, tail)
 import Data.Maybe (fromMaybe)
 import Random.PseudoRandom (randomRs, mkSeed)
 
@@ -58,7 +58,7 @@ flattenRow acc rest = flattenRow (zipWith (<>) acc (fromMaybe [] (head rest))) (
 generate :: Int -> Int -> Int -> String
 generate seed x y =
     foldl (<>) ""
-    $ map (\x -> x <> "\n")
+    $ map (\a -> a <> "\n")
     $ concat
     $ map (flattenRow (rectToStrings Base))
     $ map (map rectToStrings)
