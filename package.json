@@ -1,13 +1,10 @@
 {
   "name": "ansii-forest",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "Ansii forest generator",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "pulp browserify --standalone Main --to build.js"
   },
   "repository": {
     "type": "git",
