@@ -1,0 +1,26 @@
+{
+  "name": "ansii-forest",
+  "version": "0.0.1",
+  "description": "Ansii forest generator",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/BTBTravis/ansii-forest-generator.git"
+  },
+  "keywords": [
+    "ansii",
+    "forest"
+  ],
+  "author": "Travis Shears",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/BTBTravis/ansii-forest-generator/issues"
+  },
+  "homepage": "https://gitlab.com/BTBTravis/ansii-forest-generator#readme"
+}

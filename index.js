@@ -1,3 +1,5 @@
 const pureForest = require('./output/Main/index.js');
 
-console.log(pureForest.generate(Math.round(Math.random()) + 1)(30)(8));
+exports.generateForest = function(x, y) {
+  return pureForest.generate(Math.round(Math.random() * 10000) + 1)(x)(y);
+}
