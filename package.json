@@ -1,23 +1,23 @@
 {
-  "name": "ansii-forest",
+  "name": "ascii-forest",
   "version": "0.2.0",
-  "description": "Ansii forest generator",
+  "description": "ascii forest generator",
   "main": "index.js",
   "scripts": {
     "build": "pulp browserify --standalone Main --to build.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@gitlab.com/BTBTravis/ansii-forest-generator.git"
+    "url": "git+ssh://git@gitlab.com/BTBTravis/ascii-forest-generator.git"
   },
   "keywords": [
-    "ansii",
+    "ascii",
     "forest"
   ],
   "author": "Travis Shears",
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/BTBTravis/ansii-forest-generator/issues"
+    "url": "https://gitlab.com/BTBTravis/ascii-forest-generator/issues"
   },
-  "homepage": "https://gitlab.com/BTBTravis/ansii-forest-generator#readme"
+  "homepage": "https://gitlab.com/BTBTravis/ascii-forest-generator#readme"
 }
